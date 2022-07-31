@@ -37,9 +37,8 @@ const users = [
   {
     email: 'vitorb@email.com',
     name: 'Vitor Berlarmino',
-    password: '123456'
-  }
-
-]
+    password: '123456',
+  },
+];
 
 export { users };

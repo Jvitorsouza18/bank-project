@@ -5,17 +5,19 @@ import { v4 as uuidv4 } from 'uuid';
 const prisma = new PrismaClient();
 
 async function main() {
-  for(let user of users) {
-    const addUser = {... user, id: uuidv4()};
+  for (const user of users) {
+    const addUser = { ...user, id: uuidv4() };
     await prisma.user.create({
-      data: addUser
-    })
+      data: addUser,
+    });
   }
 }
 
-main().catch(e => {
-  console.log(e);
-  process.exit(1);
-}).finally(() => {
-  prisma.$disconnect()
-})
+main()
+  .catch((e) => {
+    console.log(e);
+    process.exit(1);
+  })
+  .finally(() => {
+    prisma.$disconnect();
+  });
