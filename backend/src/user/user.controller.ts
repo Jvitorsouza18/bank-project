@@ -1,14 +1,15 @@
 import {
   Controller,
   Get,
-  // Post,
-  // Body,
+  Post,
+  Body,
+  HttpCode,
   // Patch,
   // Param,
   // Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-// import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
@@ -20,10 +21,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.userService.create(createUserDto);
-  // }
+  @Post('create')
+  @HttpCode(201)
+  async create(@Body() user: CreateUserDto) {
+    await this.userService.create(user);
+    return { message: 'User created successfully' };
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
