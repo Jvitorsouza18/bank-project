@@ -11,7 +11,7 @@ export class CreateUserDto {
   password: string;
 
   @IsString({ message: 'Name must contaion letters' })
-  @Length(3, 20, { message: 'Name must have xablau characters' })
+  @Length(3, 30, { message: 'Name must have between 3 and 30 characters' })
   @IsNotEmpty({ message: 'Please enter your name' })
   name: string;
 }
