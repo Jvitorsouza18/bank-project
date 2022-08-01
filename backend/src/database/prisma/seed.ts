@@ -1,3 +1,4 @@
+import { transactionSample } from './transactions/index';
 import { PrismaClient } from '@prisma/client';
 import { users } from './users';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +12,14 @@ async function main() {
       data: addUser,
     });
   }
+
+  const user = await prisma.user.findFirst({
+    where: { email: 'adranzim@email.com' },
+  });
+
+  await prisma.transaction.create({
+    data: { ...transactionSample, senderId: user.id },
+  });
 }
 
 main()

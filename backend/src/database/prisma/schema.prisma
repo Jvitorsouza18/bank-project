@@ -24,11 +24,12 @@ model User {
 }
 
 model Transaction {
-  id          String  @id @unique @default(uuid())
+  id          String   @id @unique @default(uuid())
   type        String
-  value       Int
-  sender      User?   @relation("sender", fields: [senderId], references: [id])
-  senderId    String?
-  recipient   User?   @relation("recipient", fields: [recipientId], references: [id])
+  value       Decimal  @db.Decimal(10, 2)
+  sender      User?    @relation("sender", fields: [senderId], references: [id])
+  senderId    String
+  recipient   User?    @relation("recipient", fields: [recipientId], references: [id])
   recipientId String?
+  date        DateTime @default(now()) @db.Date()
 }
