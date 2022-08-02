@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { formatUser } from './helpers/formatUser.helper';
 import { generateToken } from './utils/token/generateToken';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -63,11 +64,16 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    await prisma.user.update({ where: { id }, data: updateUserDto });
-    return `User has been updated`;
+    try {
+      await prisma.user.update({ where: { id }, data: updateUserDto });
+    } catch (err) {
+      throw new HttpException('User does not exist', HttpStatus.BAD_REQUEST);
+    }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  async remove(id: string) {
+    const isDeleted = await prisma.user.deleteMany({ where: { id } });
+    if (isDeleted.count === 0)
+      throw new HttpException('User does not exist', HttpStatus.BAD_REQUEST);
+  }
 }

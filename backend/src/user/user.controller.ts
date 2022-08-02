@@ -6,7 +6,7 @@ import {
   HttpCode,
   Patch,
   Param,
-  // Delete,
+  Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -39,14 +39,17 @@ export class UserController {
     return { statusCode: 201, message: 'Login success!' };
   }
 
+  @HttpCode(200)
   @Patch('user/:id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     await this.userService.update(id, updateUserDto);
     return { statusCode: 201, message: 'Update success!' };
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @HttpCode(201)
+  @Delete('user/:id')
+  async remove(@Param('id') id: string) {
+    await this.userService.remove(id);
+    return { statusCode: 201, message: 'Delete success!' };
+  }
 }
