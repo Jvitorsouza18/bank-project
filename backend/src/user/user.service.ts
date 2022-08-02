@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import prisma from '../database/prisma';
 import { CreateUserDto } from './dto/create-user.dto';
 import { formatUser } from './helpers/formatUser.helper';
+import { generateToken } from './token/generateToken';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
@@ -19,7 +20,9 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      return await prisma.user.create({ data: createUserDto });
+      // await prisma.user.create({ data: createUserDto });
+      const token = await generateToken.generate(createUserDto);
+      return token;
     } catch (err) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }

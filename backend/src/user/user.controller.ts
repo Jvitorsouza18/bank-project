@@ -24,8 +24,8 @@ export class UserController {
   @Post('create')
   @HttpCode(201)
   async create(@Body() user: CreateUserDto) {
-    await this.userService.create(user);
-    return { message: 'User created successfully' };
+    const token = await this.userService.create(user);
+    return { token };
   }
 
   @Get(':id')
