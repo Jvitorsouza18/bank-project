@@ -1,6 +1,6 @@
+import { CreateUserDto } from './../../dto/create-user.dto';
 import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import { CreateUserDto } from './../dto/create-user.dto';
 
 const { JWT_SECRET } = process.env;
 

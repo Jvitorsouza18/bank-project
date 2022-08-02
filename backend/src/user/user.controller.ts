@@ -12,23 +12,23 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('user')
+@Controller('/')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('user')
   findAll() {
     return this.userService.findAll();
   }
 
-  @Post('create')
+  @Post('user/create')
   @HttpCode(201)
   async create(@Body() user: CreateUserDto) {
     const token = await this.userService.create(user);
     return { token };
   }
 
-  @Get(':id')
+  @Get('user/:id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }

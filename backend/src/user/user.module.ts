@@ -1,3 +1,4 @@
+import { VerifyToken } from './middlewares/verifyToken.middleware';
 import {
   MiddlewareConsumer,
   Module,
@@ -11,4 +12,8 @@ import { UserController } from './user.controller';
   controllers: [UserController],
   providers: [UserService],
 })
-export class UserModule {}
+export class UserModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(VerifyToken).forRoutes('user');
+  }
+}
