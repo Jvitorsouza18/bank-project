@@ -4,13 +4,13 @@ import {
   Post,
   Body,
   HttpCode,
-  // Patch,
+  Patch,
   Param,
   // Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('/')
 export class UserController {
@@ -36,13 +36,14 @@ export class UserController {
   @Get('login')
   @HttpCode(201)
   async login() {
-    return { statusCode: 201, message: 'Login feito com sucesso!' };
+    return { statusCode: 201, message: 'Login success!' };
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
+  @Patch('user/:id')
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    await this.userService.update(id, updateUserDto);
+    return { statusCode: 201, message: 'Update success!' };
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

@@ -4,7 +4,7 @@ import prisma from '../database/prisma';
 import { CreateUserDto } from './dto/create-user.dto';
 import { formatUser } from './helpers/formatUser.helper';
 import { generateToken } from './utils/token/generateToken';
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -62,9 +62,10 @@ export class UserService {
     }
   }
 
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    await prisma.user.update({ where: { id }, data: updateUserDto });
+    return `User has been updated`;
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} user`;
