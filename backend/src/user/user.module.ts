@@ -14,6 +14,11 @@ import { UserController } from './user.controller';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VerifyToken).forRoutes('login');
+    consumer
+      .apply(VerifyToken)
+      .forRoutes(
+        { path: 'user/:id', method: RequestMethod.PATCH },
+        { path: 'user/:id', method: RequestMethod.DELETE },
+      );
   }
 }

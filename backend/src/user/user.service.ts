@@ -1,3 +1,4 @@
+import { verifyToken } from './utils/token/verifyToken';
 import { loginUserDTO } from './dto/login-user.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import prisma from '../database/prisma';
@@ -60,13 +61,19 @@ export class UserService {
     if (!validUser) {
       throw new HttpException('Invalid user', HttpStatus.BAD_REQUEST);
     }
+    return validUser;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    try {
-      await prisma.user.update({ where: { id }, data: updateUserDto });
-    } catch (err) {
+  async update(id: string, updateUserDto: UpdateUserDto, token: string) {
+    const user = await prisma.user.findFirst({ where: { id } });
+
+    if (!user) {
       throw new HttpException('User does not exist', HttpStatus.BAD_REQUEST);
+    }
+
+    const { data: comparingUser } = await verifyToken.verify(token);
+    if (user.email !== comparingUser.email) {
+      throw new HttpException('Unauthorized user', HttpStatus.BAD_REQUEST);
     }
   }
 

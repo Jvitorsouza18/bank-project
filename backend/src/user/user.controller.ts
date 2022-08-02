@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -41,8 +42,13 @@ export class UserController {
 
   @HttpCode(200)
   @Patch('user/:id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    await this.userService.update(id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req,
+  ) {
+    const { authorization } = req.headers;
+    await this.userService.update(id, updateUserDto, authorization);
     return { statusCode: 201, message: 'Update success!' };
   }
 

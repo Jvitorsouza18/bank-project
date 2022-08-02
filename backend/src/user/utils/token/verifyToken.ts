@@ -10,7 +10,10 @@ class VerifyToken {
       const decoded = jwt.verify(token, JWT_SECRET);
       return decoded as jwt.JwtPayload;
     } catch (err) {
-      throw new HttpException('Invalid login', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Invalid or not found token',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }
