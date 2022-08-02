@@ -5,7 +5,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { formatUser } from './helpers/formatUser.helper';
 import { generateToken } from './utils/token/generateToken';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
