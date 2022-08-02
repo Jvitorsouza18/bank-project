@@ -1,4 +1,3 @@
-import { loginUserDTO } from './dto/login-user.dto';
 import {
   Controller,
   Get,
@@ -7,7 +6,6 @@ import {
   HttpCode,
   // Patch,
   Param,
-  Headers,
   // Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
