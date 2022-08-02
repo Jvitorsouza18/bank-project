@@ -1,3 +1,4 @@
+import { loginUserDTO } from './dto/login-user.dto';
 import {
   Controller,
   Get,
@@ -6,6 +7,7 @@ import {
   HttpCode,
   // Patch,
   Param,
+  Headers,
   // Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -31,6 +33,12 @@ export class UserController {
   @Get('user/:id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
+  }
+
+  @Get('login')
+  @HttpCode(201)
+  async login() {
+    return { statusCode: 201, message: 'Login feito com sucesso!' };
   }
 
   // @Patch(':id')

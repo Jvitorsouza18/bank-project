@@ -1,3 +1,4 @@
+import { loginUserDTO } from './dto/login-user.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import prisma from '../database/prisma';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -49,6 +50,15 @@ export class UserService {
       return formatUser(user);
     } catch (err) {
       throw new HttpException('User does not exist', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async loginValidation(userData: loginUserDTO) {
+    const validUser = await prisma.user.findFirst({
+      where: { email: userData.email },
+    });
+    if (!validUser) {
+      throw new HttpException('Invalid user', HttpStatus.BAD_REQUEST);
     }
   }
 
