@@ -77,9 +77,18 @@ export class UserService {
     }
   }
 
-  async remove(id: string) {
-    const isDeleted = await prisma.user.deleteMany({ where: { id } });
-    if (isDeleted.count === 0)
+  async remove(id: string, token: string) {
+    const user = await prisma.user.findFirst({ where: { id } });
+
+    if (!user) {
       throw new HttpException('User does not exist', HttpStatus.BAD_REQUEST);
+    }
+
+    const { data: comparingUser } = await verifyToken.verify(token);
+    if (user.email !== comparingUser.email) {
+      throw new HttpException('Unauthorized user', HttpStatus.BAD_REQUEST);
+    }
+
+    await prisma.user.deleteMany({ where: { id } });
   }
 }

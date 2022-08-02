@@ -54,8 +54,9 @@ export class UserController {
 
   @HttpCode(201)
   @Delete('user/:id')
-  async remove(@Param('id') id: string) {
-    await this.userService.remove(id);
+  async remove(@Param('id') id: string, @Req() req) {
+    const { authorization } = req.headers;
+    await this.userService.remove(id, authorization);
     return { statusCode: 201, message: 'Delete success!' };
   }
 }
