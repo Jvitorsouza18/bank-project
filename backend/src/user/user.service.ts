@@ -6,6 +6,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { formatUser } from './helpers/formatUser.helper';
 import { generateToken } from './utils/token/generateToken';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  checkPassword,
+  encryptPassword,
+} from './helpers/handlePassword.helper';
 
 @Injectable()
 export class UserService {
@@ -21,6 +25,8 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
+    const encryptedPassword = encryptPassword(createUserDto.password);
+    createUserDto.password = encryptedPassword;
     try {
       await prisma.user.create({ data: createUserDto });
       const token = await generateToken.generate(createUserDto);
@@ -63,9 +69,7 @@ export class UserService {
       throw new HttpException('Invalid user', HttpStatus.BAD_REQUEST);
     }
 
-    if (userData.password !== validUser.password) {
-      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
-    }
+    checkPassword(userData.password, validUser.password);
 
     const token = await generateToken.generate(validUser);
 
