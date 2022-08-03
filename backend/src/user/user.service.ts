@@ -58,10 +58,18 @@ export class UserService {
     const validUser = await prisma.user.findFirst({
       where: { email: userData.email },
     });
+
     if (!validUser) {
       throw new HttpException('Invalid user', HttpStatus.BAD_REQUEST);
     }
-    return validUser;
+
+    if (userData.password !== validUser.password) {
+      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+    }
+
+    const token = await generateToken.generate(validUser);
+
+    return token;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto, token: string) {

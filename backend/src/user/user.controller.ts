@@ -36,8 +36,10 @@ export class UserController {
 
   @Get('login')
   @HttpCode(201)
-  async login() {
-    return { statusCode: 201, message: 'Login success!' };
+  async login(@Req() req) {
+    const login = req.body;
+    const token = await this.userService.loginValidation(login);
+    return { statusCode: 201, message: 'Login success!', token };
   }
 
   @HttpCode(200)
