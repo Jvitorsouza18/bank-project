@@ -1,3 +1,4 @@
+import { loginUserDTO } from './dto/login-user.dto';
 import {
   Controller,
   Get,
@@ -8,10 +9,12 @@ import {
   Param,
   Delete,
   Req,
+  Headers,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Request } from 'express';
 
 @Controller('/')
 export class UserController {
@@ -34,31 +37,29 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Get('login')
   @HttpCode(201)
-  async login(@Req() req) {
-    const login = req.body;
-    const token = await this.userService.loginValidation(login);
-    return { statusCode: 201, message: 'Login success!', token };
-  }
-
-  @HttpCode(200)
   @Patch('user/:id')
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @Req() req,
+    @Headers('authorization') authorization,
   ) {
-    const { authorization } = req.headers;
     await this.userService.update(id, updateUserDto, authorization);
     return { statusCode: 201, message: 'Update success!' };
   }
 
   @HttpCode(201)
   @Delete('user/:id')
-  async remove(@Param('id') id: string, @Req() req) {
+  async remove(@Param('id') id: string, @Req() req: Request) {
     const { authorization } = req.headers;
     await this.userService.remove(id, authorization);
     return { statusCode: 201, message: 'Delete success!' };
+  }
+
+  @Get('login')
+  @HttpCode(200)
+  async login(@Body() login: loginUserDTO) {
+    const token = await this.userService.loginValidation(login);
+    return { statusCode: 201, message: 'Login success!', token };
   }
 }

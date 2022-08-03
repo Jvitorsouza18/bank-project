@@ -10,6 +10,7 @@ export function encryptPassword(password: string) {
 
 export function checkPassword(password: string, passwordDb: string) {
   const isMatch = bcrypt.compareSync(password, passwordDb);
+
   if (!isMatch) {
     throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
   }

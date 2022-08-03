@@ -87,6 +87,10 @@ export class UserService {
     if (user.email !== comparingUser.email) {
       throw new HttpException('Unauthorized user', HttpStatus.BAD_REQUEST);
     }
+    await prisma.user.update({
+      where: { email: user.email },
+      data: updateUserDto,
+    });
   }
 
   async remove(id: string, token: string) {
