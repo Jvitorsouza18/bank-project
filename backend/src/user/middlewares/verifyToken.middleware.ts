@@ -26,6 +26,7 @@ export class VerifyToken implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const { authorization } = req.headers;
+
     const userData = await verifyToken.verify(authorization);
 
     await this.authorizationValidation(userData.data);
