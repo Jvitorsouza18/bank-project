@@ -5,8 +5,6 @@ import {
   NestMiddleware,
   HttpException,
   HttpStatus,
-  Param,
-  Req,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import prisma from '../database/prisma';
