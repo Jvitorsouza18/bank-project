@@ -1,6 +1,7 @@
 import { Decimal } from '@prisma/client/runtime';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class CreateDepositDto {
+  @IsString({ message: 'Please enter a valid description' })
   description?: string;
 
   @IsNumber(
