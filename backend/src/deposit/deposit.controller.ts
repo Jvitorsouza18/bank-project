@@ -8,6 +8,6 @@ export class DepositController {
 
   @Post('/:id')
   create(@Body() createDepositDto: CreateDepositDto, @Param() id: string) {
-    return this.depositService.create(createDepositDto);
+    return this.depositService.create(createDepositDto, id);
   }
 }
