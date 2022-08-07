@@ -24,9 +24,10 @@ model User {
 }
 
 model Transaction {
-  id    String  @id @unique @default(uuid())
-  type  String
-  value Decimal @default(0.00) @db.Decimal(10, 2)
+  id          String  @id @unique @default(uuid())
+  description String  @default("Transação bancária")
+  type        String
+  value       Decimal @default(0.00) @db.Decimal(10, 2)
 
   sender   User?  @relation("sender", fields: [senderId], references: [id])
   senderId String
