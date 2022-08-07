@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import prisma from 'src/database/prisma';
+
 import { CreateDepositDto } from './dto/create-deposit.dto';
-import { UpdateDepositDto } from './dto/update-deposit.dto';
 
 @Injectable()
 export class DepositService {
-  create(createDepositDto: CreateDepositDto, id: string) {
-    console.log(id);
+  async create(createDepositDto: CreateDepositDto, id: string) {
+    const insertTransaction = {
+      ...createDepositDto,
+      senderId: id,
+      type: 'deposit',
+    };
+
+    await prisma.transaction.create({ data: insertTransaction });
 
     return 'This action adds a new deposit';
   }
