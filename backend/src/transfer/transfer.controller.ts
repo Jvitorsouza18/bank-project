@@ -8,12 +8,19 @@ export class TransferController {
   constructor(private readonly transferService: TransferService) {}
 
   @Post('/:id')
-  create(
+  async create(
     @Body() createTransferDto: CreateTransferDto,
     @Param() params: ParamsTransferDTO,
   ) {
     const { id } = params;
+    const { to, value } = createTransferDto;
+    await this.transferService.create(createTransferDto, id);
 
-    return this.transferService.create(createTransferDto, id);
+    const receiverEmail = await this.transferService.getReceiverName(to);
+    return {
+      message: `Transcerência de R$${value.toFixed(
+        2,
+      )} realizada para ${receiverEmail}`,
+    };
   }
 }

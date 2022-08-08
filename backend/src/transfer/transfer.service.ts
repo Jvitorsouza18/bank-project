@@ -59,4 +59,9 @@ export class TransferService {
       await prisma.transaction.create({ data: insertTransaction });
     });
   }
+
+  async getReceiverName(email: string) {
+    const user = await prisma.user.findFirst({ where: { email } });
+    return user.name;
+  }
 }
