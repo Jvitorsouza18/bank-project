@@ -50,6 +50,7 @@ export class UserService {
               value: true,
               date: true,
               recipientId: true,
+              description: true,
             },
           },
         },
