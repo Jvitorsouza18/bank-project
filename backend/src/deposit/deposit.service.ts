@@ -32,7 +32,5 @@ export class DepositService {
     });
 
     await prisma.transaction.create({ data: insertTransaction });
-
-    return 'This action adds a new deposit';
   }
 }
