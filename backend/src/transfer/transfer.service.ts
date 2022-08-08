@@ -23,6 +23,13 @@ export class TransferService {
 
       const newReceiverBalance = Number(receiverPerson.balance) + value;
 
+      if (Number(actionUser.balance) < value) {
+        throw new HttpException(
+          "You don't have enough balance",
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       const insertUserBalance = {
         balance: newUserBalance,
       };
