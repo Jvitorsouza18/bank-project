@@ -53,6 +53,16 @@ export class UserService {
               description: true,
             },
           },
+          recipientPerson: {
+            select: {
+              id: true,
+              type: true,
+              value: true,
+              date: true,
+              senderId: true,
+              description: true,
+            },
+          },
         },
       });
       return formatUser(user);
