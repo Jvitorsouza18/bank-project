@@ -13,7 +13,9 @@ export class DepositController {
     @Param() params: ParamsDepositDTO,
   ) {
     const { id } = params;
+
     this.depositService.create(createDepositDto, id);
+
     return { statusCode: 201, message: 'Deposit has been made' };
   }
 }
