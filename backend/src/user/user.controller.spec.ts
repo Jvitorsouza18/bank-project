@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 
 describe('UserController', () => {
   let controller: UserController;
-  const service = new UserService();
+  let service = new UserService();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -12,6 +12,7 @@ describe('UserController', () => {
       providers: [UserService],
     }).compile();
 
+    service = module.get<UserService>(UserService);
     controller = module.get<UserController>(UserController);
   });
 
@@ -23,6 +24,6 @@ describe('UserController', () => {
     const result = [{ name: 'John Doe', email: 'test@test.com', id: '1' }];
     jest.spyOn(service, 'findAll').mockResolvedValue(result);
 
-    expect(service.findAll()).resolves.toBe(result);
+    expect(controller.findAll()).resolves.toBe(result);
   });
 });
