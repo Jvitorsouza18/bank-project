@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import userTest from './testUtils/IdObjetc';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
@@ -25,5 +26,11 @@ describe('UserController', () => {
     jest.spyOn(service, 'findAll').mockResolvedValue(result);
 
     expect(controller.findAll()).resolves.toBe(result);
+  });
+
+  it('return by id should return one user', async () => {
+    const spy = jest.spyOn(service, 'findOne').mockImplementation();
+    service.findOne('1');
+    expect(spy).toHaveBeenCalled();
   });
 });
