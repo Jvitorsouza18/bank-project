@@ -14,6 +14,31 @@ describe('UserController', () => {
         email: 'email',
       },
     ],
+
+    create: () => {
+      return 'token';
+    },
+
+    findOne: () => {
+      return {
+        name: 'User',
+        balance: '2000',
+        madeTransactions: [],
+        receivedTransactions: [],
+      };
+    },
+
+    login: () => {
+      return {
+        statusCode: 201,
+        message: 'Login success!',
+        token: 'token',
+      };
+    },
+
+    loginValidation: () => {
+      return 'token';
+    },
   };
 
   beforeEach(async () => {
@@ -29,9 +54,41 @@ describe('UserController', () => {
     await app.init();
   });
 
-  it('should be defined', () => {
-    request(app.getHttpServer()).get('/users').expect(200).expect({
-      data: service.findAll(),
-    });
+  afterAll((done) => {
+    done();
+  });
+
+  beforeAll((done) => {
+    done();
+  });
+
+  it('get all users route should be defined', async () => {
+    await request(app.getHttpServer())
+      .get('/user')
+      .expect(200)
+      .expect(service.findAll());
+  });
+
+  it('create user route should return a token', async () => {
+    await request(app.getHttpServer())
+      .post('/user/create')
+      .expect(201)
+      .expect({ token: service.create() });
+  });
+
+  it('find user by id route should be defined', async () => {
+    await request(app.getHttpServer())
+      .get('/user/1')
+      .expect(200)
+      .expect(service.findOne());
+  });
+
+  it('login route should be defined', async () => {
+    jest.spyOn(service, 'loginValidation');
+
+    await request(app.getHttpServer())
+      .get('/login')
+      .expect(200)
+      .expect(service.login());
   });
 });

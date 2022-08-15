@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import prisma from 'src/database/prisma';
+import prisma from '../database/prisma';
 import { CreateWithdrawDto } from './dto/create-withdraw.dto';
 
 @Injectable()

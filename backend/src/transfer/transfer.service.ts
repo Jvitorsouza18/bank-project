@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { CreateTransferDto } from './dto/create-transfer.dto';
-import prisma from 'src/database/prisma';
+import prisma from '../database/prisma';
 
 @Injectable()
 export class TransferService {
