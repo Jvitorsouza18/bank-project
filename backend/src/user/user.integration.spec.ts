@@ -145,8 +145,6 @@ describe('ROUTE /users', () => {
         password: '123456',
       });
 
-      console.log(response.body);
-
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
         token: 'token',
