@@ -9,8 +9,8 @@ import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { IGetUserById } from './dto/testInterfaces/IGetUserById';
 
-describe('ROUTE /users', () => {
-  describe('GET /users', () => {
+describe('Users realeted', () => {
+  describe('Should pass when', () => {
     let app: INestApplication;
     const usersService = new UserService();
 
@@ -117,20 +117,21 @@ describe('ROUTE /users', () => {
       jest.spyOn(usersService, 'findOne').mockResolvedValue(mockByIdUser);
 
       jest.spyOn(usersService, 'loginValidation').mockResolvedValue('token');
+      jest.spyOn(usersService, 'create').mockResolvedValue('token');
     });
 
     afterEach(() => {
       jest.restoreAllMocks();
     });
 
-    it('/user should return all users', async () => {
+    it('/user returns all users', async () => {
       const response = await request(app.getHttpServer()).get('/user');
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(mockAllUsers);
     });
 
-    it('/user/:id should return user', async () => {
+    it('/user/:id returns an user', async () => {
       const response = await request(app.getHttpServer()).get(
         '/user/376bc779-d36b-4696-b6e2-67cff98c8cce',
       );
@@ -139,7 +140,7 @@ describe('ROUTE /users', () => {
       expect(response.body).toEqual(mockByIdUser);
     });
 
-    it('/login should return token', async () => {
+    it('/login returns a token', async () => {
       const response = await request(app.getHttpServer()).get('/login').send({
         email: 'testuser4@test.com',
         password: '123456',
@@ -151,6 +152,17 @@ describe('ROUTE /users', () => {
         statusCode: 200,
         message: 'Login success!',
       });
+    });
+
+    it('/user/create returns user token', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/user/create')
+        .send({
+          name: 'Test',
+          email: '',
+        });
+
+      expect(response.status).toBe(201);
     });
   });
 });
