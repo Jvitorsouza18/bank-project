@@ -60,6 +60,6 @@ export class UserController {
   @HttpCode(200)
   async login(@Body() login: loginUserDTO) {
     const token = await this.userService.loginValidation(login);
-    return { statusCode: 201, message: 'Login success!', token };
+    return { statusCode: 200, message: 'Login success!', token };
   }
 }
